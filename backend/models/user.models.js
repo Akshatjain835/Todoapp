@@ -15,6 +15,12 @@ const userSchema=mongoose.Schema({
         required:true,
         select:false
      },
+     token:{
+      type:String,
+
+      expiresIn: "1h" ,//token will expire after 1 hour
+
+     }
 
 });
 

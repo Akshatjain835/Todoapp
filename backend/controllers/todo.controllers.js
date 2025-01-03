@@ -1,4 +1,4 @@
-import todo from "../modals/todo.modals.js"
+import todo from "../models/todo.models.js"
 
 export const createtodo=async(req,res)=>{
 
@@ -8,7 +8,7 @@ export const createtodo=async(req,res)=>{
     });
     // const { text, completed } = req.body;
 
-    // // Validate input
+    // Validate input
     // if (!text || typeof completed !== "boolean") {
     //     return res.status(400).json({ message: "Invalid input data" });
     // }
@@ -49,7 +49,10 @@ export const updatetodo=async(req,res)=>{
 
 export const deletetodo=async(req,res)=>{
      try {
-         const existtodo=await todo.findByIdAndDelete(req.params.id);
+         const existTodo=await todo.findByIdAndDelete(req.params.id);
+         if(!existTodo){
+            return res.status(404).json({message:"Todo not exist"});
+         }
          res.status(201).json({message:"Todo deleted successfully"});
 
      } catch (error) {
