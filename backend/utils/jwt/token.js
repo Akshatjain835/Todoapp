@@ -1,27 +1,27 @@
+
 import jwt from "jsonwebtoken"
 import user from "../../models/user.models.js"
 
-export const generateTokenAndSaveCookies=async(userId,res)=>{
-    // Generate JWT token
-    // const token=generateToken(req.user); 
-    //jwt.sign({userId},token)
+export const generateTokenAndSaveCookies = async (idofuser, res) => {
+    const token = jwt.sign({ userId: idofuser }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+    console.log(token);
 
-   const token= jwt.sign({userId},process.env.JWT_SECRET_KEY,{
-        expiresIn:"1h",
+    res.cookie("jwt", token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 60 * 60 * 1000),  // 1 hour
+        sameSite: "lax",
+        secure: false,
+        path: "/"
     });
-    res.cookie("jwt",token,{
-        httpOnly:true,
-        expires:new Date(Date.now()+1*60*60*1000),  //1 hour //expiresIn:"1h"
-        sameSite:"lax",
-        secure:false,
-        path:"/"
-    })
-
-    await user.findByIdAndUpdate(userId,{token});
+    await user.findByIdAndUpdate(idofuser, { token });
     return token;
 }
 
-
 export const verifyToken = (token) => {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    try {
+        return jwt.verify(token, process.env.JWT_SECRET_KEY);
+    } catch (error) {
+        console.error("Error verifying token:", error.message);
+        throw new Error("Invalid token");
+    }
 };

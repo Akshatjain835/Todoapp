@@ -7,8 +7,8 @@ const router=express.Router();
 
 
 
-router.post("/create",createtodo);
-router.get("/fetch",gettodos);
+router.post("/create",authenticate,createtodo);
+router.get("/fetch",authenticate,gettodos);
 router.put("/update/:id",updatetodo);
 router.delete("/delete/:id",deletetodo);
 

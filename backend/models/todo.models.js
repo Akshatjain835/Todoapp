@@ -7,8 +7,14 @@ const  todoSchema=mongoose.Schema({
     },
     completed:{
         type:Boolean,
-        requried:true,
+        required:true,
     },
+    userbyid:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user',
+        // required:true,
+
+    }
 })
 
 const todo=new mongoose.model("todo",todoSchema);

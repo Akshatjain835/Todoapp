@@ -5,11 +5,11 @@ import { authenticate } from "../middleware/authentication.middleware.js";
 
 const router=express.Router();
 
-
-router.use(authenticate);
+// router.use(authenticate);
 
 router.post("/signup",validate(userSchema),register);
 router.post("/login",login);
 router.get("/logout",authenticate,logout);
+
 
 export default router;

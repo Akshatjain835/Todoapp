@@ -18,7 +18,7 @@ const userSchema=mongoose.Schema({
      token:{
       type:String,
 
-      expiresIn: "1h" ,//token will expire after 1 hour
+     
 
      }
 
