@@ -7,7 +7,7 @@ export const generateTokenAndSaveCookies = async (idofuser, res) => {
     console.log(token);
 
     res.cookie("jwt", token, {
-        httpOnly: true,
+        // httpOnly: true,
         expires: new Date(Date.now() + 1 * 60 * 60 * 1000),  // 1 hour
         sameSite: "lax",
         secure: false,
