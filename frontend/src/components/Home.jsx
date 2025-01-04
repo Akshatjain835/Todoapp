@@ -16,7 +16,7 @@ function Home() {
     const fetchTodos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("https://todoapp-peei.onrender.com/todo/fetch", {
+        const response = await axios.get("http:localhost:3000/todo/fetch", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json", //we are fecthing json data
@@ -111,7 +111,7 @@ function Home() {
     const todo = todos.find((t) => t._id === id);
     try {
       const response = await axios.put(
-        `https://todoapp-peei.onrender.com/todo/update/${id}`,
+        `http:localhost:300/todo/update/${id}`,
         {
           ...todo, //here we get the uodated value of the todo
           completed: !todo.completed,
@@ -148,7 +148,7 @@ function Home() {
 
     try {
       const response = await axios.delete(
-        `https://todoapp-peei.onrender.com/todo/delete/${id}`,
+        `http:localhost:300/todo/delete/${id}`,
         {
           withCredentials: true,
         }
