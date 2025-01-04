@@ -17,7 +17,7 @@ function Signup() {
 
     try {
       const { data } = await axios.post(
-        "https://todoapp-peei.onrender.com/user/signup",
+        "http://localhost:3000/user/signup",
         {
           username,
           email,

@@ -16,7 +16,7 @@ function Home() {
     const fetchTodos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("https://todoapp-peei.onrender.com/todo/fetch", {
+        const response = await axios.get("http://localhost:3000/todo/fetch", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json", //we are fecthing json data
@@ -40,7 +40,7 @@ function Home() {
   const todocreate = async () => {
     //  try {
     //      setLoading(true);
-    //      const response=await axios.post("https://todoapp-peei.onrender.com/todo/create",{
+    //      const response=await axios.post("http://localhost:3000/todo/create",{
     //           title:req.body.title,
     //           description:req.body.description,
     //           dueDate:req.body.dueDate,
@@ -67,7 +67,7 @@ function Home() {
 
     try {
       const response = await axios.post(
-        "https://todoapp-peei.onrender.com/todo/create",
+        "http://localhost:3000/todo/create",
         {
           text: newtodos,
           completed: false,
@@ -91,7 +91,7 @@ function Home() {
   const todostatus = async (id) => {
     // try {
     //      setLoading(true);
-    //      const response=await axios.put(`https://todoapp-peei.onrender.com/todo/update/${req.params.id}`,{
+    //      const response=await axios.put(`http://localhost:3000/todo/update/${req.params.id}`,{
     //          completed:req.body.completed,
     //      },{
     //          withCredentials:true,
@@ -111,7 +111,7 @@ function Home() {
     const todo = todos.find((t) => t._id === id);
     try {
       const response = await axios.put(
-        `https://todoapp-peei.onrender.com/todo/update/${id}`,
+        `http://localhost:3000/todo/update/${id}`,
         {
           ...todo, //here we get the uodated value of the todo
           completed: !todo.completed,
@@ -131,7 +131,7 @@ function Home() {
   const tododelete = async (id) => {
     // try {
     //      setLoading(true);
-    //      const response=await axios.delete(`https://todoapp-peei.onrender.com/todo/delete/${req.params.id}`,{
+    //      const response=await axios.delete(`http://localhost:3000/todo/delete/${req.params.id}`,{
     //          withCredentials:true,
     //          headers:{
     //              "Content-Type":"application/json",
@@ -148,7 +148,7 @@ function Home() {
 
     try {
       const response = await axios.delete(
-        `https://todoapp-peei.onrender.com/todo/delete/${id}`,
+        `http://localhost:3000/todo/delete/${id}`,
         {
           withCredentials: true,
         }
@@ -163,7 +163,7 @@ function Home() {
 
   const logout = async () => {
     try {
-      await axios.get("https://todoapp-peei.onrender.com/user/logout", {
+      await axios.get("http://localhost:3000/user/logout", {
         withCredentials: true,
       });
       toast.success("User logged out successfully");
@@ -257,4 +257,5 @@ function Home() {
 export default Home;
 
 // // when backend and frontend are running on different ports then we need to connect them so we use CORS to connect them in backend
+
 
