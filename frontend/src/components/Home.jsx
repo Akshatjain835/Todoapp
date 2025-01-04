@@ -16,7 +16,7 @@ function Home() {
     const fetchTodos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3000/todo/fetch", {
+        const response = await axios.get("https://todoapp-peei.onrender.com/todo/fetch", {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json", //we are fecthing json data
@@ -111,7 +111,7 @@ function Home() {
     const todo = todos.find((t) => t._id === id);
     try {
       const response = await axios.put(
-        `http://localhost:3000/todo/update/${id}`,
+        `https://todoapp-peei.onrender.com/todo/update/${id}`,
         {
           ...todo, //here we get the uodated value of the todo
           completed: !todo.completed,
@@ -148,7 +148,7 @@ function Home() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:3000/todo/delete/${id}`,
+        `https://todoapp-peei.onrender.com/todo/delete/${id}`,
         {
           withCredentials: true,
         }
@@ -163,7 +163,7 @@ function Home() {
 
   const logout = async () => {
     try {
-      await axios.get("http://localhost:3000/user/logout", {
+      await axios.get("https://todoapp-peei.onrender.com/user/logout", {
         withCredentials: true,
       });
       toast.success("User logged out successfully");
@@ -259,259 +259,3 @@ export default Home;
 // // when backend and frontend are running on different ports then we need to connect them so we use CORS to connect them in backend
 
 
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import toast from "react-hot-toast";
-// import { useNavigate } from "react-router-dom";
-
-// function Home() {
-//   const [todos, setTodos] = useState([]);
-//   const [error, setError] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [newtodos, setNewtodos] = useState("");
-
-//   const navigateTo = useNavigate(); // we can use const navigateTo = useNavigate(); and navigateTo("/login") for navigation or instead we can use Directly navigate tag i.e <Navigate to={"/login"} />
-
-//   // useEffect is used with fetchTodos only as the data is continuously changing for every other also called
-//   useEffect(() => {
-    
-//     const fetchTodos = async () => {
-//       try {
-//         setLoading(true); // sets the loading state to true while fetching
-//         const response = await axios.get("http://localhost:3000/todo/fetch", {
-//           withCredentials: true, // ensures cookies are sent with the request
-//           headers: {
-//             "Content-Type": "application/json", // we are fetching JSON data
-//             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-//           },
-//         });
-//         console.log(response.data); // response contains the entire things and all details that can be seen by using inspect in the console page
-//         setTodos(response.data.existTodo); // because the response.data.todos gives the array directly, so we can apply the map feature
-//         setError(null); // existTodo name is seen by inspecting the console
-//       } catch (error) {
-//         if (error.response?.status === 401) {
-//           toast.error("Session expired. Please login again.");
-//           navigateTo("/login");
-//         } else {
-//           setError("Failed to load Todos: " + (error.response?.data?.message || error.message));
-//         }
-//       } finally {
-//         setLoading(false); // sets loading state to false regardless of success or failure
-//       }
-//     };
-
-//     fetchTodos(); // fetches todos when the component mounts
-//   }, []);
-
-//   const todocreate = async (userId) => {
-    
-//     //  try {
-//     //      setLoading(true);
-//     //      const response=await axios.post("http://localhost:3000/todo/create",{
-//     //           title:req.body.title,
-//     //           description:req.body.description,
-//     //           dueDate:req.body.dueDate,
-//     //           completed:req.body.completed,
-//     //           userId:req.body.userId,
-//     //      },{
-//     //           withCredentials:true,
-//     //           headers:{
-//     //              "Content-Type":"application/json",
-//     //           },
-//     //      });
-//     //      console.log(response);
-//     //      setTodos([...todos,response.data]);
-//     //      setError(null);
-//     //  } catch (error) {
-//     //      setError("Failed to create the Todo",error);
-//     //  }finally{
-//     //      setLoading(false);
-//     //  }
-
-//     if (!newtodos) {
-//       return; // prevents creating a todo if the input is empty
-//     }
-
-//     try {
-//       const response = await axios.post(
-//         "http://localhost:3000/todo/create",
-//         {
-//           text: newtodos, // the text of the new todo
-//           completed: false, // new todos are incomplete by default
-//         },
-//         {
-//           withCredentials: true, // ensures cookies are sent with the request
-//         }
-//       );
-
-//       console.log(response.data.newtodo); // logs the newly created todo object from the response
-//       setTodos([...todos, response.data.newtodo]); // appends the new todo to the existing list
-//       setNewtodos(""); // clears the input field after adding the todo
-//     } catch (error) {
-//       setError("failed to create the Todos", error); // handles errors during todo creation
-//     }
-//   };
-
-//   const todostatus = async (id) => {
-//     // try {
-//     //      setLoading(true);
-//     //      const response=await axios.put(`http://localhost:3000/todo/update/${req.params.id}`,{
-//     //          completed:req.body.completed,
-//     //      },{
-//     //          withCredentials:true,
-//     //          headers:{
-//     //              "Content-Type":"application/json",
-//     //          },
-//     //      });
-//     //      console.log(response);
-//     //      setTodos(todos.map(todo=>todo._id===req.params.id?response.data:todo));
-//     //      setError(null);
-//     //  } catch (error) {
-//     //      setError("Failed to update the Todo",error);
-//     //  }finally{
-//     //      setLoading(false);
-//     //  }
-
-//     const todo = todos.find((t) => t._id === id); // find the matching todo
-//     try {
-//       const response = await axios.put(
-//         `http://localhost:3000/todo/update/${id}`,
-//         {
-//           ...todo, // passes the existing todo data
-//           completed: !todo.completed, // toggles the completed status
-//         },
-//         {
-//           withCredentials: true, // ensures cookies are sent with the request
-//         }
-//       );
-//       console.log(response.data.existTodo); // logs the updated todo object from the response
-//       setTodos(todos.map((t) => (t._id === id ? response.data.existTodo : t))); // updates the todo in the state
-//     } catch (error) {
-//       setError("failed to find todos status", error); // handles errors during status update
-//     }
-//   };
-
-//   const tododelete = async (id) => {
-//     // try {
-//     //      setLoading(true);
-//     //      const response=await axios.delete(`http://localhost:3000/todo/delete/${req.params.id}`,{
-//     //          withCredentials:true,
-//     //          headers:{
-//     //              "Content-Type":"application/json",
-//     //          },
-//     //      });
-//     //      console.log(response);
-//     //      setTodos(todos.filter(todo=>todo._id!==req.params.id));
-//     //      setError(null);
-//     //  } catch (error) {
-//     //      setError("Failed to delete the Todo",error);
-//     //  }finally{
-//     //      setLoading(false);
-//     //  }
-
-//     try {
-//       const response = await axios.delete(
-//         `http://localhost:3000/todo/delete/${id}`, // endpoint for deleting a specific todo
-//         {
-//           withCredentials: true, // ensures cookies are sent with the request
-//         }
-//       );
-//       console.log(response); // logs the response for debugging purposes
-//       setTodos(todos.filter((t) => t._id !== id)); // filters out the deleted todo from the state
-//     } catch (error) {
-//       setError("failed to delete the Todo", error); // handles errors during deletion
-//     }
-//   };
-
-//   const logout = async () => {
-//     // handles user logout
-//     try {
-//       await axios.get("http://localhost:3000/user/logout", {
-//         withCredentials: true, // ensures cookies are sent with the request
-//       });
-//       toast.success("User logged out successfully"); // displays a success message
-//       navigateTo("/login"); // navigates to the login page
-//       localStorage.removeItem("jwt"); // removes the user's token from local storage
-//     } catch (error) {
-//       toast.error("Error logging out"); // displays an error message
-//     }
-//   };
-
-//   const remainingTodos = todos.filter((todo) => !todo.completed).length; // calculates the number of remaining incomplete todos
-
-//   return (
-//     <div className="bg-gray-100 max-w-lg lg:max-w-xl rounded-lg shadow-lg mx-8 sm:mx-auto p-6 my-10">
-//       <h1 className="text-2xl font-semibold text-center">TODO APP</h1>
-//       <div className="mb-4 flex">
-//         <input
-//           type="text"
-//           placeholder="Add the new todo"
-//           value={newtodos}
-//           onChange={(e) => setNewtodos(e.target.value)}
-//           // onKeyPress={(e) => e.key === "Enter" && todocreate()} // Simplified handler   //e.target.value can be seen on console and whatever we are typing in the box gets dispalyed in the console
-//           className="flex-grow p-2 border rounded-l-md focus:outline-none mr-1"
-//         />
-
-//         <button
-//           onClick={todocreate}
-//           className="text-white bg-blue-600 border rounded-r-md py-2 px-4 hover:bg-blue-900 duration-300"
-//         >
-//           ADD
-//         </button>
-//       </div>
-//       {loading ? (
-//         <div className="text-center justify-center">
-//           <span className="text-gray-500">Loading....</span>
-//         </div>
-//       ) : error ? (
-//         <div className="text-center text-red-600 font-semibold">{error}</div>
-//       ) : (
-//         <ul className="space-y-2">
-//           {todos.map((todo, index) => (
-//             <li
-//               key={todo._id || index}
-//               className="flex items-center justify-between p-3 bg-gray-100 rounded-md"
-//             >
-//               <div className="flex items-center">
-//                 <input
-//                   type="checkbox"
-//                   className="mr-2"
-//                   checked={todo.completed}
-//                   onChange={() => todostatus(todo._id)}
-//                 />
-//                 <span
-//                   className={
-//                     todo.completed
-//                       ? "text-gray-800 line-through"
-//                       : "text-gray-500"
-//                   }
-//                 >
-//                   {todo.text}
-//                 </span>
-//               </div>
-
-//               <button
-//                 onClick={() => tododelete(todo._id)}
-//                 className="text-red-500 hover:text-red-900 duration-300"
-//               >
-//                 Delete
-//               </button>
-//             </li>
-//           ))}
-//         </ul>
-//       )}
-
-//       <p className="mt-2 text-center text-sm text-gray-700">
-//         {remainingTodos} Todo remaining
-//       </p>
-//       <button
-//         onClick={() => logout()}
-//         className="mt-6 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-900 duration-300 mx-auto block"
-//       >
-//         Logout
-//       </button>
-//     </div>
-//   );
-// }
-
-// export default Home;
